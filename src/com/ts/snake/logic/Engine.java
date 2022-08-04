@@ -5,30 +5,45 @@ import com.ts.snake.gui.MainFrame;
 
 public class Engine {
     GameController controller ;
-    GuiController guiController ;
+    GameGuiController guiController ;
     MainFrame mainFrame ;
     boolean gameOver, isAppleEaten;
+    Boolean isExit = false, isRestart = false ;
     int cannibalisedIndex ;
     public Engine() {
         mainFrame = new MainFrame() ;
         controller = new GameController(mainFrame.getGamePanel()) ;
-        guiController = new GuiController(mainFrame.getGamePanel().getCurrentImage(), controller.getGroupsGrid()) ;
-        restart();
-
+        guiController = new GameGuiController(mainFrame.getGamePanel().getCurrentImage(), controller.getGroupsGrid()) ;
+        cannibalisedIndex = -1 ;
+        gameOver = false ;
+        isAppleEaten = false ;
+        controller.initGridGroups();
+        controller.createSnake();
+        controller.plantApple() ;
+        guiController.paintApple();
+        guiController.paintSnake();
     }
     public void run() {
-        while(!gameOver) {
-            evaluate();
+        while(!isExit) {
+            while (!gameOver) {
+                evaluate();
 
-            write();
+                write();
 
-            draw();
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                draw();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            isRestart = mainFrame.isRestart() ;
+            if(isRestart){
+                restart();
+            }
+            isExit = mainFrame.isExit();
         }
+        shutDown() ;
     }
     public void evaluate() {
         controller.promoteSnake(DirectionSingleton.getInstance().getCurrentDirection());
@@ -40,7 +55,6 @@ public class Engine {
         if(gameOver){
             mainFrame.gameOver();
             guiController.gameOver() ;
-            System.out.println("gameOVered");
         }else
         if(cannibalisedIndex != -1){
             guiController.rememberSnakeEatenPart(cannibalisedIndex);
@@ -74,6 +88,9 @@ public class Engine {
 
     }
     public void restart(){
+        mainFrame.restart();
+        controller = new GameController(mainFrame.getGamePanel()) ;
+        guiController = new GameGuiController(mainFrame.getGamePanel().getCurrentImage(), controller.getGroupsGrid()) ;
         cannibalisedIndex = -1 ;
         gameOver = false ;
         isAppleEaten = false ;
@@ -82,5 +99,8 @@ public class Engine {
         controller.plantApple() ;
         guiController.paintApple();
         guiController.paintSnake();
+    }
+    public void shutDown(){
+        mainFrame.getFrame().dispose();
     }
 }

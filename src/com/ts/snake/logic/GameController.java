@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class GameController {
     private GamePanel gameFrame ;
-    private GuiController guiController ;
+    private GameGuiController guiController ;
     private List<Point>[][] groupsGrid;
     private Random rand ;
     private boolean isGameOver ;
@@ -23,7 +23,7 @@ public class GameController {
         rand = new Random() ;
         isGameOver = false ;
         initGridGroups();
-        guiController = new GuiController(gameFrame.getCurrentImage(), groupsGrid) ;
+        guiController = new GameGuiController(gameFrame.getCurrentImage(), groupsGrid) ;
         SnakeSingleton.getInstance().setHead(getRandomCell()); ;
 
 

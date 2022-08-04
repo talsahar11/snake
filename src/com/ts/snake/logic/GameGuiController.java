@@ -8,14 +8,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiController {
+public class GameGuiController {
     private BufferedImage image ;
     private List<Point>[][] groupsGrid ;
     private List<Point> cannibalisedLocations ;
     private Point lastAppleCell ;
     private Color brushColor ;
 
-    public GuiController(BufferedImage image, List<Point>[][] groupsGrid) {
+    public GameGuiController(BufferedImage image, List<Point>[][] groupsGrid) {
         this.image = image ;
         this.groupsGrid = groupsGrid ;
 

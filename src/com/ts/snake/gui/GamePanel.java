@@ -20,7 +20,6 @@ public class GamePanel {
     Integer currentDirection ;
     public GamePanel() {
         initComponents();
-        setListeners();
         initPanel();
     }
     private void initComponents() {
@@ -50,40 +49,24 @@ public class GamePanel {
         return ImageSingleton.getInstance().getImage();
     }
 
-    public void setListeners(){
-        imageLbl.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
+    public void keyPressed(int keyCode) {
+        if(keyCode > 36 && keyCode < 41){
+            switch (keyCode){
+                case(37):
+                    DirectionSingleton.getInstance().setCurrentDirection(Direction.LEFT); ;
+                    break;
+                case(38):
+                    DirectionSingleton.getInstance().setCurrentDirection(Direction.UP); ;
+                    break;
+                case(39):
+                    DirectionSingleton.getInstance().setCurrentDirection(Direction.RIGHT); ;
+                    break;
+                case(40):
+                    DirectionSingleton.getInstance().setCurrentDirection(Direction.DOWN); ;
+                    break;
 
             }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int key = e.getKeyCode() ;
-                if(key > 36 && key < 41){
-                    switch (key){
-                        case(37):
-                            DirectionSingleton.getInstance().setCurrentDirection(Direction.LEFT); ;
-                            break;
-                        case(38):
-                            DirectionSingleton.getInstance().setCurrentDirection(Direction.UP); ;
-                            break;
-                        case(39):
-                            DirectionSingleton.getInstance().setCurrentDirection(Direction.RIGHT); ;
-                            break;
-                        case(40):
-                            DirectionSingleton.getInstance().setCurrentDirection(Direction.DOWN); ;
-                            break;
-
-                    }
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
+        }
     }
 
     public JPanel getPanel() {
